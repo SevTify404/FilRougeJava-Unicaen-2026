@@ -36,6 +36,9 @@ public class Nim {
         return this.tailleInitialeDuTas;
     }
 
+    /**
+     * @return Le libellé du joueur courant ("Joueur 1" ou "Joueur 2")
+     */
     public String getLibelleJoueur() {
         return joueurCourantJ1 ? "Joueur 1" : "Joueur 2";
     }

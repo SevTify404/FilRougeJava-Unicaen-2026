@@ -33,6 +33,13 @@ public class TicTacToe {
         return joueurCourantEstJ1 ? nomJoueurUn : nomJoueurDeux;
     }
 
+    /**
+     * @return Le libellé du joueur courant ("Joueur 1" ou "Joueur 2")
+     */
+    public String getLibelleJoueur() {
+        return joueurCourantEstJ1 ? "Joueur 1" : "Joueur 2";
+    }
+
     /*
     public void test() {
         System.out.println(situationToString());
