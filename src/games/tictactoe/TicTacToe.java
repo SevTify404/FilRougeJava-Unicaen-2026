@@ -7,6 +7,11 @@ public class TicTacToe {
     private String nomJoueurDeux;
     private boolean joueurCourantEstJ1; // True si le coup suivant est celui du joueur 1, false sinon
 
+    /**
+     * Instancie un nouvel objet de type TicTacToe representant une partie
+     * @param nomJoueurUn Le nom du premier joueur
+     * @param nomJoueurDeux Le nom du deuxieme joueur
+     */
     public TicTacToe(String nomJoueurUn, String nomJoueurDeux) {
         this.nomJoueurDeux = nomJoueurDeux;
         this.nomJoueurUn = nomJoueurUn;
@@ -14,10 +19,16 @@ public class TicTacToe {
         this.grille = new String[3][3];
     }
 
+    /**
+     * Change le joueur actif pour l'autre joueur
+     */
     private void changerJoueurActif() {
         this.joueurCourantEstJ1 = !this.joueurCourantEstJ1;
     }
 
+    /**
+     * @return Le joueur qui doit jouer le prochain coup
+     */
     public String getCurrentPlayer() {
         return joueurCourantEstJ1 ? nomJoueurUn : nomJoueurDeux;
     }
@@ -28,12 +39,23 @@ public class TicTacToe {
     }
     */
 
+    /**
+     * Execute un coup en plaçant le symbole du joueur courant sur la grille et change le joueur actif
+     * @param ligne Le numéro de la ligne où placer le symbole
+     * @param colonne Le numéro de la colonne où placer le symbole
+     */
     public void execute(int ligne, int colonne) {
         //X pour le joueur 1 et O pour le joueur 2
         this.grille[ligne][colonne] = this.bonCaractere(joueurCourantEstJ1);
         this.changerJoueurActif();
     }
 
+    /**
+     * Vérifie si un coup est jouable par rapport à la situation courante du jeu
+     * @param ligne Le numéro de la ligne où placer le symbole
+     * @param colonne Le numéro de la colonne où placer le symbole
+     * @return Un booléen indiquant si le coup est valide ou pas, true si le coup est valide, false sinon
+     */
     public boolean isValid(int ligne, int colonne) {
         if (ligne >= 3 || ligne < 0) {
             return false;
@@ -45,14 +67,33 @@ public class TicTacToe {
         return this.grille[ligne][colonne] == null;
     }
 
+    /**
+     * Retourne le symbole correspondant au joueur
+     * @param estJ1 True si le joueur est le joueur 1, false sinon
+     * @return Le symbole "X" pour le joueur 1, "O" pour le joueur 2
+     */
     private String bonCaractere(boolean estJ1) {
         return estJ1 ? "X" : "O";
     }
 
+    /**
+     * Retourne un booléen indiquant si le joueur donné est le joueur 1
+     * @param nomJoueur Le nom du joueur
+     * @return True si le joueur est le joueur 1, false sinon
+     */
     private boolean retrouverBoolDepuisNomJoueur(String nomJoueur){
         return this.nomJoueurUn.equals(nomJoueur);
     }
 
+    /**
+     * Vérifie si un joueur a gagné en formant une ligne de 3 symboles alignés
+     * @param nomJoueur Le nom du joueur à vérifier
+     * @param ligne La ligne de départ
+     * @param colonne La colonne de départ
+     * @param deltaLigne L'incrément pour les lignes
+     * @param deltaColonne L'incrément pour les colonnes
+     * @return True si le joueur a gagné avec cette combinaison, false sinon
+     */
     public boolean wins(String nomJoueur, int ligne, int colonne, int deltaLigne, int deltaColonne) {
         //System.out.println("estj1 : " + estJ1 + "\nligne : " + ligne + "\ncolonne : " + colonne + "\ndLigne :" + deltaLigne + "\ndCol : " + deltaColonne);
         String bonPattern = bonCaractere(retrouverBoolDepuisNomJoueur(nomJoueur)) + bonCaractere(retrouverBoolDepuisNomJoueur(nomJoueur)) + bonCaractere(retrouverBoolDepuisNomJoueur(nomJoueur));
@@ -73,6 +114,10 @@ public class TicTacToe {
     }
     */
 
+    /**
+     * Retourne le nom du gagnant si le jeu est terminé et que quelqu'un a gagné
+     * @return Le nom du gagnant si le jeu est terminé et qu'il y'a un gagnant, sinon la méthode renvoie null
+     */
     public String getWinner() {
         String[] tabJCourant = {nomJoueurUn, nomJoueurDeux};
         for (String joueur:  tabJCourant) {
@@ -108,6 +153,9 @@ public class TicTacToe {
         return null;
     }
 
+    /**
+     * @return La situation actuelle du jeu sous forme de chaîne de caractères
+     */
     public String situationToString() {
 
         String SEPARATION_HOR = " ";
@@ -136,6 +184,10 @@ public class TicTacToe {
 
     }
 
+    /**
+     * Vérifie si le jeu est terminé ou pas
+     * @return Un booléen indiquant si le jeu est terminé, true si le jeu est terminé, false sinon
+     */
     public boolean isOver() {
         if (getWinner() != null) {
             return true;
