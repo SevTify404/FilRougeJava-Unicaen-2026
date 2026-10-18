@@ -46,7 +46,7 @@ public class TicTacToe {
      */
     public void execute(int ligne, int colonne) {
         //X pour le joueur 1 et O pour le joueur 2
-        this.grille[ligne][colonne] = this.bonCaractere(joueurCourantEstJ1);
+        this.grille[ligne][colonne] = this.retrouverCaractereDeGrille(joueurCourantEstJ1);
         this.changerJoueurActif();
     }
 
@@ -72,7 +72,7 @@ public class TicTacToe {
      * @param estJ1 True si le joueur est le joueur 1, false sinon
      * @return Le symbole "X" pour le joueur 1, "O" pour le joueur 2
      */
-    private String bonCaractere(boolean estJ1) {
+    private String retrouverCaractereDeGrille(boolean estJ1) {
         return estJ1 ? "X" : "O";
     }
 
@@ -95,32 +95,28 @@ public class TicTacToe {
      * @return True si le joueur a gagné avec cette combinaison, false sinon
      */
     public boolean wins(String nomJoueur, int ligne, int colonne, int deltaLigne, int deltaColonne) {
-        //System.out.println("estj1 : " + estJ1 + "\nligne : " + ligne + "\ncolonne : " + colonne + "\ndLigne :" + deltaLigne + "\ndCol : " + deltaColonne);
-        String bonPattern = bonCaractere(retrouverBoolDepuisNomJoueur(nomJoueur)) + bonCaractere(retrouverBoolDepuisNomJoueur(nomJoueur)) + bonCaractere(retrouverBoolDepuisNomJoueur(nomJoueur));
-        //System.out.println(bonPattern);
+
+        // On crée une String avec l'allignement gagnant afin de comparer avec l'alignement calculé
+        String patternGagnant = retrouverCaractereDeGrille(retrouverBoolDepuisNomJoueur(nomJoueur)).repeat(3);
+
         // (row, column), (row + deltaRow, column + deltaColumn), (row + 2 × deltaRow, column +
         //2 × deltaColumn)
-        return bonPattern.equals(
-                this.grille[ligne][colonne]
+        String patternGrilleObtenu = this.grille[ligne][colonne]
                 + this.grille[ligne + deltaLigne][colonne + deltaColonne]
-                + this.grille[ligne + (2 * deltaLigne)][colonne + (2 * deltaColonne)]
-        );
+                + this.grille[ligne + (2 * deltaLigne)][colonne + (2 * deltaColonne)];
+
+        return patternGagnant.equals(patternGrilleObtenu);
 
     }
-
-    /*
-    private String getPlayerWithBool(boolean estJ1) {
-        return estJ1 ? nomJoueurUn : nomJoueurDeux;
-    }
-    */
 
     /**
      * Retourne le nom du gagnant si le jeu est terminé et que quelqu'un a gagné
      * @return Le nom du gagnant si le jeu est terminé et qu'il y'a un gagnant, sinon la méthode renvoie null
      */
     public String getWinner() {
-        String[] tabJCourant = {nomJoueurUn, nomJoueurDeux};
+        String[] tabJCourant = {this.nomJoueurUn, this.nomJoueurDeux};
         for (String joueur:  tabJCourant) {
+
             // les8 combos possibles pour win
             boolean victoire = wins(joueur, 0, 0, 0, 1)
                     || wins(joueur, 1, 0, 0, 1)

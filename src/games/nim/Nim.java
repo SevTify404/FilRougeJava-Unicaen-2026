@@ -36,6 +36,10 @@ public class Nim {
         return this.tailleInitialeDuTas;
     }
 
+    public String getLibelleJoueur() {
+        return joueurCourantJ1 ? "Joueur 1" : "Joueur 2";
+    }
+
     /**
      * @return Le nombre d'allumettes restant actuel dans le jeu
      */
@@ -71,14 +75,13 @@ public class Nim {
      * @param nombreAllumettesARetirer Le nombre d'allumettes à retirer dans le coup
      */
     public void removeMatches(int nombreAllumettesARetirer) {
-        /*
-        if (nombreAllumettesARetirer > this.nombreMaxAlumetteRetirableEnUnCoup || nombreAllumettesARetirer > this.getCurrentNbMatches()) {
-            System.out.println("Action impossible");
-            return;
+
+        if (isValid(nombreAllumettesARetirer)) {
+            this.nombreCourantAlumettes = this.nombreCourantAlumettes - nombreAllumettesARetirer;
+            this.changerJoueurCourant();
         }
-        */
-        this.nombreCourantAlumettes = this.nombreCourantAlumettes - nombreAllumettesARetirer;
-        this.changerJoueurCourant();
+
+
     }
 
 
@@ -113,7 +116,7 @@ public class Nim {
         }
 
         // Si le dernier coup a retirer la derniere allumette alors celui qui l'a fait est le perdant
-        // La méthode removeMatches se charge de changer le jouer courant apres chaque coup, donc le joueur courant actuel
+        //Vu que la méthode removeMatches se charge de changer le jouer courant apres chaque coup, donc le joueur courant actuel
         // devrait etre celui qui a gagné
 
         return this.getCurrentPlayer();
