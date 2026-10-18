@@ -2,7 +2,7 @@ package games.tictactoe;
 
 public class TicTacToe {
 
-    private String[][] grille = null;
+    private String[][] grille;
     private String nomJoueurUn;
     private String nomJoueurDeux;
     private boolean joueurCourantEstJ1; // True si le coup suivant est celui du joueur 1, false sinon
