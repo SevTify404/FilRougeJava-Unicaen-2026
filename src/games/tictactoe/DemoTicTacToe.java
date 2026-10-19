@@ -25,7 +25,7 @@ public class DemoTicTacToe {
         while (!ticTacToeInstance.isOver()) {
             System.out.println(ticTacToeInstance.situationToString());
 
-            System.out.println("["+ticTacToeInstance.getLibelleJoueur()+"] "+"C'est à " + ticTacToeInstance.getCurrentPlayer() + " de jouer");
+            System.out.println("["+ticTacToeInstance.getLibelleJoueurCourant()+"] "+"C'est à " + ticTacToeInstance.getCurrentPlayer() + " de jouer");
             int[] coupValide = recupererCoupValide(ticTacToeInstance, scanner);
             ticTacToeInstance.execute(coupValide[0], coupValide[1]);
         }

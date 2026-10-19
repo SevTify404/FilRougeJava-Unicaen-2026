@@ -24,7 +24,7 @@ public class DemoNim {
 
         while (!instanceJeuNim.isOver()) {
             System.out.println(instanceJeuNim.situationToString());
-            System.out.println("["+instanceJeuNim.getLibelleJoueur()+"] " + instanceJeuNim.getCurrentPlayer() + " C'est ton tour" );
+            System.out.println("["+instanceJeuNim.getLibelleJoueurCourant()+"] " + instanceJeuNim.getCurrentPlayer() + " C'est ton tour" );
             int coupValide = recupererCoupValide(instanceJeuNim, scanner);
             instanceJeuNim.removeMatches(coupValide);
         }

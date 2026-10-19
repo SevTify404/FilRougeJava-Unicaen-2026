@@ -39,7 +39,7 @@ public class Nim {
     /**
      * @return Le libellé du joueur courant ("Joueur 1" ou "Joueur 2")
      */
-    public String getLibelleJoueur() {
+    public String getLibelleJoueurCourant() {
         return joueurCourantJ1 ? "Joueur 1" : "Joueur 2";
     }
 
