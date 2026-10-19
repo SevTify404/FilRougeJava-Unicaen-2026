@@ -36,7 +36,7 @@ public class TicTacToe {
     /**
      * @return Le libellé du joueur courant ("Joueur 1" ou "Joueur 2")
      */
-    public String getLibelleJoueur() {
+    public String getLibelleJoueurCourant() {
         return joueurCourantEstJ1 ? "Joueur 1" : "Joueur 2";
     }
 
@@ -84,27 +84,18 @@ public class TicTacToe {
     }
 
     /**
-     * Retourne un booléen indiquant si le joueur donné est le joueur 1
-     * @param nomJoueur Le nom du joueur
-     * @return True si le joueur est le joueur 1, false sinon
-     */
-    private boolean retrouverBoolDepuisNomJoueur(String nomJoueur){
-        return this.nomJoueurUn.equals(nomJoueur);
-    }
-
-    /**
      * Vérifie si un joueur a gagné en formant une ligne de 3 symboles alignés
-     * @param nomJoueur Le nom du joueur à vérifier
+     * @param estJ1 Le joueur à vérifier
      * @param ligne La ligne de départ
      * @param colonne La colonne de départ
      * @param deltaLigne L'incrément pour les lignes
      * @param deltaColonne L'incrément pour les colonnes
      * @return True si le joueur a gagné avec cette combinaison, false sinon
      */
-    public boolean wins(String nomJoueur, int ligne, int colonne, int deltaLigne, int deltaColonne) {
+    public boolean wins(boolean estJ1, int ligne, int colonne, int deltaLigne, int deltaColonne) {
 
         // On crée une String avec l'allignement gagnant afin de comparer avec l'alignement calculé
-        String patternGagnant = retrouverCaractereDeGrille(retrouverBoolDepuisNomJoueur(nomJoueur)).repeat(3);
+        String patternGagnant = retrouverCaractereDeGrille(estJ1).repeat(3);
 
         // (row, column), (row + deltaRow, column + deltaColumn), (row + 2 × deltaRow, column +
         //2 × deltaColumn)
@@ -121,21 +112,26 @@ public class TicTacToe {
      * @return Le nom du gagnant si le jeu est terminé et qu'il y'a un gagnant, sinon la méthode renvoie null
      */
     public String getWinner() {
-        String[] tabJCourant = {this.nomJoueurUn, this.nomJoueurDeux};
-        for (String joueur:  tabJCourant) {
+
+        // Tableau pour representer les deux joueurs
+        // True represente J1
+        // False represente J2
+        boolean[] tabJoueurs = {true, false};
+
+        for (boolean joueurBool:  tabJoueurs) {
 
             // les8 combos possibles pour win
-            boolean victoire = wins(joueur, 0, 0, 0, 1)
-                    || wins(joueur, 1, 0, 0, 1)
-                    || wins(joueur, 2, 0, 0, 1)
-                    || wins(joueur, 0, 0, 1, 0)
-                    || wins(joueur, 0, 1, 1, 0)
-                    || wins(joueur, 0, 2, 1, 0)
-                    || wins(joueur, 0, 0, 1, 1)
-                    || wins(joueur, 0, 2, 1, -1);
+            boolean victoire = wins(joueurBool, 0, 0, 0, 1)
+                    || wins(joueurBool, 1, 0, 0, 1)
+                    || wins(joueurBool, 2, 0, 0, 1)
+                    || wins(joueurBool, 0, 0, 1, 0)
+                    || wins(joueurBool, 0, 1, 1, 0)
+                    || wins(joueurBool, 0, 2, 1, 0)
+                    || wins(joueurBool, 0, 0, 1, 1)
+                    || wins(joueurBool, 0, 2, 1, -1);
 
             if (victoire) {
-                return joueur;
+                return joueurBool ? this.nomJoueurUn : this.nomJoueurDeux;
             }
         }
         /*

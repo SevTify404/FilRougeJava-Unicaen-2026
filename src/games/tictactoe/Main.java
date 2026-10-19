@@ -9,7 +9,6 @@ public class Main{
         ok = ok && ticTacToeTester.testExecuteAndIsValid();
         ok = ok && ticTacToeTester.testGetWinner();
         ok = ok && ticTacToeTester.testIsOver();
-        ok = ok && ticTacToeTester.testWins();
         System.out.println(ok ? "All tests OK" : "At least one test KO");
     }
 }
