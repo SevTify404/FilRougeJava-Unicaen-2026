@@ -2,11 +2,11 @@ package games.tictactoe;
 
 public class TicTacToe {
 
-    private String[][] grille;
+    protected String[][] grille;
     private String nomJoueurUn;
     private String nomJoueurDeux;
-    private boolean joueurCourantEstJ1; // True si le coup suivant est celui du joueur 1, false sinon
-
+    protected boolean joueurCourantEstJ1; // True si le coup suivant est celui du joueur 1, false sinon
+    protected String SEPARATEUR = " ";
     /**
      * Instancie un nouvel objet de type TicTacToe representant une partie
      * @param nomJoueurUn Le nom du premier joueur
@@ -22,7 +22,7 @@ public class TicTacToe {
     /**
      * Change le joueur actif pour l'autre joueur
      */
-    private void changerJoueurActif() {
+    protected void changerJoueurActif() {
         this.joueurCourantEstJ1 = !this.joueurCourantEstJ1;
     }
 
@@ -40,11 +40,6 @@ public class TicTacToe {
         return joueurCourantEstJ1 ? "Joueur 1" : "Joueur 2";
     }
 
-    /*
-    public void test() {
-        System.out.println(situationToString());
-    }
-    */
 
     /**
      * Execute un coup en plaçant le symbole du joueur courant sur la grille et change le joueur actif
@@ -75,11 +70,20 @@ public class TicTacToe {
     }
 
     /**
+     * Retourne le pattern gagnant par rapport au joueur
+     * @param estJ1 True si le joueur est le joueur 1, false sinon
+     * @return Le pattern gagnant, XXX ou OOO selon le joueur
+     */
+    protected String retrouverPatternGagnant(boolean estJ1){
+        return retrouverCaractereDeGrille(estJ1).repeat(3);
+    }
+
+    /**
      * Retourne le symbole correspondant au joueur
      * @param estJ1 True si le joueur est le joueur 1, false sinon
      * @return Le symbole "X" pour le joueur 1, "O" pour le joueur 2
      */
-    private String retrouverCaractereDeGrille(boolean estJ1) {
+    protected String retrouverCaractereDeGrille(boolean estJ1) {
         return estJ1 ? "X" : "O";
     }
 
@@ -95,7 +99,7 @@ public class TicTacToe {
     public boolean wins(boolean estJ1, int ligne, int colonne, int deltaLigne, int deltaColonne) {
 
         // On crée une String avec l'allignement gagnant afin de comparer avec l'alignement calculé
-        String patternGagnant = retrouverCaractereDeGrille(estJ1).repeat(3);
+        String patternGagnant = retrouverPatternGagnant(estJ1);
 
         // (row, column), (row + deltaRow, column + deltaColumn), (row + 2 × deltaRow, column +
         //2 × deltaColumn)
@@ -106,6 +110,24 @@ public class TicTacToe {
         return patternGagnant.equals(patternGrilleObtenu);
 
     }
+
+    protected boolean verifierLignesGagnantes(boolean estJ1) {
+        return wins(estJ1, 0, 0, 0, 1)
+                || wins(estJ1, 1, 0, 0, 1)
+                || wins(estJ1, 2, 0, 0, 1);
+    }
+
+    protected boolean verifierColonnesGagnantes(boolean estJ1) {
+        return wins(estJ1, 0, 0, 1, 0)
+                || wins(estJ1, 0, 1, 1, 0)
+                || wins(estJ1, 0, 2, 1, 0);
+    }
+
+    protected boolean verifierDiagonalesGagnantes(boolean estJ1) {
+        return wins(estJ1, 0, 0, 1, 1)
+                || wins(estJ1, 2, 0, -1, 1);
+    }
+
 
     /**
      * Retourne le nom du gagnant si le jeu est terminé et que quelqu'un a gagné
@@ -121,14 +143,9 @@ public class TicTacToe {
         for (boolean joueurBool:  tabJoueurs) {
 
             // les8 combos possibles pour win
-            boolean victoire = wins(joueurBool, 0, 0, 0, 1)
-                    || wins(joueurBool, 1, 0, 0, 1)
-                    || wins(joueurBool, 2, 0, 0, 1)
-                    || wins(joueurBool, 0, 0, 1, 0)
-                    || wins(joueurBool, 0, 1, 1, 0)
-                    || wins(joueurBool, 0, 2, 1, 0)
-                    || wins(joueurBool, 0, 0, 1, 1)
-                    || wins(joueurBool, 0, 2, 1, -1);
+            boolean victoire = verifierColonnesGagnantes(joueurBool) ||
+                    verifierLignesGagnantes(joueurBool) ||
+                    verifierDiagonalesGagnantes(joueurBool);
 
             if (victoire) {
                 return joueurBool ? this.nomJoueurUn : this.nomJoueurDeux;
@@ -152,27 +169,25 @@ public class TicTacToe {
         return null;
     }
 
-    /**
-     * @return La situation actuelle du jeu sous forme de chaîne de caractères
-     */
-    public String situationToString() {
-
-        String SEPARATION_HOR = " ";
+    protected String dessinnerEnteteSituation() {
         String situationString = "";
-        situationString += SEPARATION_HOR + SEPARATION_HOR;
+        situationString += SEPARATEUR + SEPARATEUR;
 
         // La ligne des nombres
-        situationString += ("0" + SEPARATION_HOR + "1" + SEPARATION_HOR + "2");
+        situationString += ("0" + SEPARATEUR + "1" + SEPARATEUR + "2");
         situationString += System.lineSeparator();
 
-        // Les lignes du tableau
+        return situationString;
+    }
+
+    protected String dessinerTableauSituation(String situationString) {
         int ligneCourante = 0;
         for (String[] ligne : this.grille) {
             situationString += String.valueOf(ligneCourante);
-            situationString += SEPARATION_HOR;
+            situationString += SEPARATEUR;
             for (String elementCourant : ligne) {
                 situationString += elementCourant == null ? "." : elementCourant;
-                situationString += SEPARATION_HOR;
+                situationString += SEPARATEUR;
             }
 
             situationString += System.lineSeparator();
@@ -180,7 +195,14 @@ public class TicTacToe {
         }
 
         return situationString;
+    }
 
+
+    /**
+     * @return La situation actuelle du jeu sous forme de chaîne de caractères
+     */
+    public String situationToString() {
+        return dessinerTableauSituation(this.dessinnerEnteteSituation());
     }
 
     /**
