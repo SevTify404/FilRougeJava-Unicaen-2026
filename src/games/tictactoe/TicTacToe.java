@@ -24,6 +24,7 @@ public class TicTacToe {
      */
     protected void changerJoueurActif() {
         this.joueurCourantEstJ1 = !this.joueurCourantEstJ1;
+//        System.out.println("Joueur actif changé, new value : " + this.joueurCourantEstJ1);
     }
 
     /**
@@ -142,7 +143,7 @@ public class TicTacToe {
 
         for (boolean joueurBool:  tabJoueurs) {
 
-            // les8 combos possibles pour win
+            // Les combos possibles pour win
             boolean victoire = verifierColonnesGagnantes(joueurBool) ||
                     verifierLignesGagnantes(joueurBool) ||
                     verifierDiagonalesGagnantes(joueurBool);

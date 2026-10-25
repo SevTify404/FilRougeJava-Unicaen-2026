@@ -102,13 +102,25 @@ public class DemoTicTacToe {
      * @return Une nouvelle instance de TicTacToe configurée avec les paramètres saisis
      */
     private static TicTacToe initialiserJeu(Scanner unScanner) {
+
+        TicTacToe game;
         System.out.println("Nom du joueur 1 : ");
         String nameJ1 = unScanner.next();
 
         System.out.println("Nom du joueur 2 : ");
         String nameJ2 = unScanner.next();
 
-        return new TicTacToe(nameJ1, nameJ2);
+        System.out.println("Voulez vous jouer avec des indices ? oui ou non : ?");
+
+        String answer = unScanner.next();
+        if (answer.equals("oui")) {
+            System.out.println("hints");
+            game = new TicTacToeWithHints(nameJ1, nameJ2);
+        } else {
+            game = new TicTacToe(nameJ1, nameJ2);
+        }
+
+        return game;
     }
 
 }

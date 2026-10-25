@@ -59,10 +59,15 @@ public class TicTacToeWithHints extends TicTacToe {
         // Jouer le coup
         this.execute(ligne, colonne);
 
+        this.changerJoueurActif();      // Pour équilibrer execut(), il change implicitement le joueur actif
+
         // Voir si il est gagnant
         boolean coupGagnant = verifierColonneCoupGagnant(colonne) ||
                 verifierLigneCoupGagnant(ligne) ||
                 verifierDiagonalesGagnantes(this.joueurCourantEstJ1);
+
+//        boolean coupGagnant = getWinner() != null;
+
 
         // Annuler le coup
         this.annulerCoup(ligne, colonne);
@@ -71,12 +76,21 @@ public class TicTacToeWithHints extends TicTacToe {
     }
 
     public ArrayList<Integer> hints() {
+
         ArrayList<Integer> hints = new ArrayList<>();
+
+        ArrayList<Integer> listeCasesVides = this.trouverCasesVides();
+
+        // Petite optimisation, si on a plus de 6 cases vides c'est impossible d'avoir un coup gagnant
+        // Autrement dit il est possible de gagner apres minimum 2 coups de chaque joueur
+        if (listeCasesVides.size() > 6) {
+            // On retourne le tableau vide
+            return hints;
+        }
 
         this.changerJoueurActif();      // Pour agir en tant que l'adversairz
 
-        for (int caseBase3 : this.trouverCasesVides()) {
-
+        for (int caseBase3 : listeCasesVides) {
             boolean coupPotentiellementGagnant = this.coupGagnant(
                     this.trouverLigneDepuisEntierBase3(caseBase3),
                     this.trouverColonneDepuisEntierBase3(caseBase3)
@@ -87,6 +101,8 @@ public class TicTacToeWithHints extends TicTacToe {
             }
 
         }
+
+        this.changerJoueurActif();      // Pour remettre en l'ordre
 
         return hints;
     }
