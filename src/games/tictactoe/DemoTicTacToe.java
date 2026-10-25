@@ -97,7 +97,8 @@ public class DemoTicTacToe {
 
     /**
      * Initialise une nouvelle partie de Morpion en demandant les paramètres à l'utilisateur.
-     * Récupère les noms des deux joueurs.
+     * Récupère les noms des deux joueurs et demande s'ils souhaitent jouer avec des indices.
+     * Retourne une instance de TicTacToeWithHints si les indices sont activés, sinon une instance de TicTacToe classique.
      * @param unScanner Le Scanner utilisé pour lire l'entrée standard
      * @return Une nouvelle instance de TicTacToe configurée avec les paramètres saisis
      */

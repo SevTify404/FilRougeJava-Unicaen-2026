@@ -112,18 +112,33 @@ public class TicTacToe {
 
     }
 
+    /**
+     * Vérifie si un joueur a gagné en formant une ligne horizontale de 3 symboles alignés.
+     * @param estJ1 True si le joueur à vérifier est le joueur 1, false sinon
+     * @return True si le joueur a gagné avec une ligne horizontale, false sinon
+     */
     protected boolean verifierLignesGagnantes(boolean estJ1) {
         return wins(estJ1, 0, 0, 0, 1)
                 || wins(estJ1, 1, 0, 0, 1)
                 || wins(estJ1, 2, 0, 0, 1);
     }
 
+    /**
+     * Vérifie si un joueur a gagné en formant une colonne verticale de 3 symboles alignés.
+     * @param estJ1 True si le joueur à vérifier est le joueur 1, false sinon
+     * @return True si le joueur a gagné avec une colonne verticale, false sinon
+     */
     protected boolean verifierColonnesGagnantes(boolean estJ1) {
         return wins(estJ1, 0, 0, 1, 0)
                 || wins(estJ1, 0, 1, 1, 0)
                 || wins(estJ1, 0, 2, 1, 0);
     }
 
+    /**
+     * Vérifie si un joueur a gagné en formant une diagonale de 3 symboles alignés.
+     * @param estJ1 True si le joueur à vérifier est le joueur 1, false sinon
+     * @return True si le joueur a gagné avec une diagonale, false sinon
+     */
     protected boolean verifierDiagonalesGagnantes(boolean estJ1) {
         return wins(estJ1, 0, 0, 1, 1)
                 || wins(estJ1, 2, 0, -1, 1);
@@ -170,6 +185,11 @@ public class TicTacToe {
         return null;
     }
 
+    /**
+     * Construit l'en-tête de la représentation textuelle de la situation du jeu,
+     * contenant les numéros de colonnes.
+     * @return La chaîne représentant l'en-tête de la situation
+     */
     protected String dessinnerEnteteSituation() {
         String situationString = "";
         situationString += SEPARATEUR + SEPARATEUR;
@@ -181,6 +201,13 @@ public class TicTacToe {
         return situationString;
     }
 
+    /**
+     * Construit la représentation textuelle du tableau de jeu en ajoutant le contenu
+     * de chaque case de la grille à la chaîne fournie.
+     * Les cases vides sont représentées par ".".
+     * @param situationString La chaîne de base contenant l'en-tête de la situation
+     * @return La chaîne complète représentant le tableau de jeu
+     */
     protected String dessinerTableauSituation(String situationString) {
         int ligneCourante = 0;
         for (String[] ligne : this.grille) {
