@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class TicTacToeWithHints extends TicTacToe {
 
+    private ArrayList<Integer> hints;
+
     /**
      * Instancie un nouvel objet de type TicTacToe representant une partie
      *
@@ -14,6 +16,40 @@ public class TicTacToeWithHints extends TicTacToe {
         super(nomJoueurUn, nomJoueurDeux);
     }
 
+    /**
+     * Met à jour le cache des indices avec la liste fournie.
+     * @param hints La liste des indices à stocker
+     */
+    private void setHints(ArrayList<Integer> hints) {
+        this.hints = hints;
+    }
+
+    /**
+     * Retourne le cache des indices courants.
+     * @return La liste des indices mis en cache, peut être null si non encore calculé
+     */
+    public ArrayList<Integer> getHints() {
+        return hints;
+    }
+
+    /**
+     * Vide le cache des indices en le mettant à null.
+     * Utilisé lorsque la partie est terminée pour libérer la mémoire.
+     */
+    private void cleanHints() {
+        hints = null;
+    }
+
+    /**
+     * Vérifie si un coup donné (en base 3) est présent dans le cache des indices.
+     * Gère le cas où le cache n'a pas encore été initialisé.
+     * @param coupBase3 Le coup à vérifier, représenté en base 3 (0-8)
+     * @return True si le coup est dans la liste des indices, false sinon
+     */
+    private boolean hintsContains(int coupBase3) {
+        if (hints == null) return false;
+        return hints.contains(coupBase3);
+    }
 
     /**
      * Convertit les coordonnées d'une case (ligne, colonne) en un entier en base 3.
@@ -105,9 +141,7 @@ public class TicTacToeWithHints extends TicTacToe {
     private boolean coupGagnant(int ligne, int colonne) {
 
         // Jouer le coup
-        this.execute(ligne, colonne);
-
-        this.changerJoueurActif();      // Pour équilibrer execut(), il change implicitement le joueur actif
+        this.mockExecute(ligne, colonne);
 
         // Voir si il est gagnant
         boolean coupGagnant = verifierColonneCoupGagnant(colonne) ||
@@ -165,15 +199,52 @@ public class TicTacToeWithHints extends TicTacToe {
     }
 
     /**
+     * Vérifie si le jeu est terminé.
+     * Si la partie est terminée, le cache des indices est vidé.
+     * @return True si le jeu est terminé (victoire ou match nul), false sinon
+     */
+    @Override
+    public boolean isOver() {
+        if (super.isOver()){
+            cleanHints();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Exécute un coup en plaçant le symbole du joueur courant sur la grille,
+     * change le joueur actif, puis met à jour le cache des indices.
+     * @param ligne Le numéro de la ligne où placer le symbole (0-2)
+     * @param colonne Le numéro de la colonne où placer le symbole (0-2)
+     */
+    @Override
+    public void execute(int ligne, int colonne) {
+        super.execute(ligne, colonne);
+        setHints(hints());
+    }
+
+    /**
+     * Simule un coup en plaçant uniquement le symbole du joueur courant sur la grille,
+     * sans changer le joueur actif ni mettre à jour le cache.
+     * Utilisé pour tester des coups potentiels sans effet de bord sur l'état du jeu.
+     * @param ligne Le numéro de la ligne où placer le symbole (0-2)
+     * @param colonne Le numéro de la colonne où placer le symbole (0-2)
+     */
+    private void mockExecute(int ligne, int colonne) {
+        this.grille[ligne][colonne] = this.retrouverCaractereDeGrille(joueurCourantEstJ1);
+    }
+
+
+    /**
      * Construit la représentation textuelle du tableau de jeu avec les indices.
      * Les cases vides correspondant à un coup gagnant sont marquées par "!"
-     * au lieu de "." pour indiquer au joueur où jouer.
+     * au lieu de "." pour indiquer au joueur où il pourrait perdre.
      * @param situationString La chaîne de base contenant l'en-tête de la situation
      * @return La chaîne complète représentant le tableau de jeu avec les indices
      */
     @Override
     protected String dessinerTableauSituation(String situationString) {
-        ArrayList<Integer> hints = this.hints();
         for (int l = 0; l < 3; l++) {
             situationString += String.valueOf(l);
             situationString += SEPARATEUR;
@@ -182,7 +253,7 @@ public class TicTacToeWithHints extends TicTacToe {
                 // Un peu brutal mais bon....
                 situationString +=
                         elementCourant == null ?
-                        hints.contains(this.positionVersEntierBase3(l, c)) ?
+                        this.hintsContains(this.positionVersEntierBase3(l, c)) ?
                                 "!" : "."
                         :
                         elementCourant;
