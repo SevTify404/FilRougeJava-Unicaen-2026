@@ -1,5 +1,8 @@
 package games.genericgames;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import games.players.Player;
 
 public abstract class AbstractGame implements Game{
@@ -51,12 +54,35 @@ public abstract class AbstractGame implements Game{
         return nomJoueurUn;
     }
 
-    
 
     /**
      * Change le joueur actif pour l'autre joueur
      */
-    protected  void changerJoueurCourant() {
+    protected void changerJoueurCourant() {
         this.joueurCourantEstJ1 = !this.joueurCourantEstJ1;
+    }
+
+
+    /**
+     * Récupère une valeur entière saisie au clavier en gérant les erreurs de saisie.
+     * Redemande la saisie tant que l'utilisateur n'entre pas un nombre entier valide.
+     * @param unScanner Le Scanner utilisé pour lire l'entrée standard
+     * @return La valeur entière saisie par l'utilisateur
+     */
+    public static int recupererValeurEntierreAuClavier(Scanner unScanner) {
+        int valeur = 0;
+        boolean saisieValide = false;
+
+        while (!saisieValide) {
+            try {
+                valeur = unScanner.nextInt();
+                saisieValide = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Erreur, il faut entrer un nombre entier valide.");
+                unScanner.next(); // Consomme et ignore l'entrée incorrecte pour éviter une boucle infinie
+            }
+        }
+
+        return valeur;
     }
 }

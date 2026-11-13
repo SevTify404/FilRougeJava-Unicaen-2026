@@ -1,5 +1,9 @@
 package games.genericgames;
 
+import games.players.Player;
+import java.util.List;
+import java.util.Scanner;
+import java.util.ArrayList;
 public class TicTacToe extends AbstractGame {
 
     protected String[][] grille;
@@ -9,7 +13,7 @@ public class TicTacToe extends AbstractGame {
      * @param nomJoueurUn Le nom du premier joueur
      * @param nomJoueurDeux Le nom du deuxieme joueur
      */
-    public TicTacToe(String nomJoueurUn, String nomJoueurDeux) {
+    public TicTacToe(Player nomJoueurUn, Player nomJoueurDeux) {
         super(nomJoueurUn, nomJoueurDeux);
         this.grille = new String[3][3];
     }
@@ -31,7 +35,7 @@ public class TicTacToe extends AbstractGame {
      * @param entierBase3 L'entier en base 3 (0-8)
      * @return Le numéro de colonne (0-2)
      */
-    protected  int trouverColonneDepuisEntierBase3(int entierBase3) {
+    protected int trouverColonneDepuisEntierBase3(int entierBase3) {
         return entierBase3 % 3;
     }
 
@@ -61,6 +65,7 @@ public class TicTacToe extends AbstractGame {
      * @param entierBase3 L'entier en base 3 (0-8)
      * @return Un booléen indiquant si le coup est valide ou pas, true si le coup est valide, false sinon
      */
+    @Override
     public boolean isValid(int entierBase3) {
 
         int ligne = trouverLigneDepuisEntierBase3(entierBase3);
@@ -155,7 +160,8 @@ public class TicTacToe extends AbstractGame {
      * Retourne le nom du gagnant si le jeu est terminé et que quelqu'un a gagné
      * @return Le nom du gagnant si le jeu est terminé et qu'il y'a un gagnant, sinon la méthode renvoie null
      */
-    public String getWinner() {
+    @Override 
+    public Player getWinner() {
 
         // Tableau pour representer les deux joueurs
         // True represente J1
@@ -220,6 +226,7 @@ public class TicTacToe extends AbstractGame {
     /**
      * @return La situation actuelle du jeu sous forme de chaîne de caractères
      */
+    @Override 
     public String situationToString() {
         return dessinerTableauSituation(this.dessinnerEnteteSituation());
     }
@@ -228,6 +235,7 @@ public class TicTacToe extends AbstractGame {
      * Vérifie si le jeu est terminé ou pas
      * @return Un booléen indiquant si le jeu est terminé, true si le jeu est terminé, false sinon
      */
+    @Override 
     public boolean isOver() {
         if (getWinner() != null) {
             return true;
@@ -241,5 +249,62 @@ public class TicTacToe extends AbstractGame {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<Integer> validMoves() {
+        
+        ArrayList<Integer> coupsValides = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (this.grille[i][j] == null) {
+                    coupsValides.add(
+                        TicTacToe.positionVersEntierBase3(i, j)
+                    );
+                }
+            }
+        }
+        System.out.println("Taille recup : " + coupsValides.size());
+        return coupsValides;
+    }
+
+    @Override
+    public int recupererCoup(Scanner unScanner) {
+
+        System.out.println("Votre coup :");
+        System.out.println("- Rangée ?");
+
+        int ligne = AbstractGame.recupererValeurEntierreAuClavier(unScanner);
+        System.out.println("- Colonne ?");
+        int colonne = AbstractGame.recupererValeurEntierreAuClavier(unScanner);
+
+
+        return positionVersEntierBase3(ligne, colonne);
+    }
+    @Override
+    public String moveToString(int entierBase3) {
+        return "Coup sur la case [" + trouverLigneDepuisEntierBase3(entierBase3) + "][" + trouverColonneDepuisEntierBase3(entierBase3) + "]";
+    }
+
+    private String[][] copieProfondeGrille(){
+        String[][] nouveauTableau = new String[3][3];
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                nouveauTableau[i][j] = this.grille[i][j];
+            }
+        }
+
+        return nouveauTableau;
+    }
+
+    @Override
+    public Game copy() {
+        TicTacToe nouveauJeu = new TicTacToe(getJoueurUn(), getJoueurDeux());
+        nouveauJeu.grille = copieProfondeGrille();
+        nouveauJeu.joueurCourantEstJ1 = this.joueurCourantEstJ1;
+
+        return nouveauJeu;
     }
 }

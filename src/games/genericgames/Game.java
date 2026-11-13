@@ -2,6 +2,7 @@ package games.genericgames;
 
 import games.players.Player;
 import java.util.List;
+import java.util.Scanner;
 
 public interface Game {
 
@@ -20,6 +21,11 @@ public interface Game {
     public String situationToString();
 
     public Game copy();
+
+    // Petits ajouts pour simplifier le code
+    public int recupererCoup(Scanner unScanner);
+
+    public boolean isOver();
 }
 
 

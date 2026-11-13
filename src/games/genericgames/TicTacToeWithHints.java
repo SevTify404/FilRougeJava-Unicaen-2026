@@ -2,6 +2,8 @@ package games.genericgames;
 
 import java.util.ArrayList;
 
+import games.players.Player;
+
 public class TicTacToeWithHints extends TicTacToe {
 
     private ArrayList<Integer> hints;
@@ -12,7 +14,7 @@ public class TicTacToeWithHints extends TicTacToe {
      * @param nomJoueurUn   Le nom du premier joueur
      * @param nomJoueurDeux Le nom du deuxieme joueur
      */
-    public TicTacToeWithHints(String nomJoueurUn, String nomJoueurDeux) {
+    public TicTacToeWithHints(Player nomJoueurUn, Player nomJoueurDeux) {
         super(nomJoueurUn, nomJoueurDeux);
     }
 
