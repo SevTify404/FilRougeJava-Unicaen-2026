@@ -17,11 +17,10 @@ public class RandomPlayer implements Player{
     public int chooseMove(Game unGame) {
 
         List<Integer> coupsValides = unGame.validMoves();
-        
-        System.out.println(coupsValides.size());
+
         int indexRandom = tireurRandom.nextInt(coupsValides.size());
 
-        return coupsValides.indexOf(indexRandom);
+        return coupsValides.get(indexRandom);
     }
 
     @Override
