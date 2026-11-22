@@ -1,0 +1,25 @@
+# Lancer les tests un par un
+# Compilation préalable (à exécuter une seule fois) :
+javac -d build -cp lib/gamestests.jar:src/ src/**/*.java
+
+# 1. GenericGameTest (AbstractGame, Nim, TicTacToe, TicTacToeWithHints)
+java -cp build:lib/gamestests.jar games.genericgames.GenericGameTest
+
+# 2. TestFactor (Nim et TicTacToe factorisés)
+java -cp build:lib/gamestests.jar games.factoredgames.TestFactor
+
+# 3. TestPlayers (Human et RandomPlayer)
+java -cp build:lib/gamestests.jar games.players.TestPlayers
+
+# 5. TestPlays (Orchestrator)
+java -cp build:lib/gamestests.jar games.plays.TestPlays
+
+# 6. Nim de Base
+java -cp build:lib/gamestests.jar games.nim.Main
+
+
+# 7. TicTacToe de Base
+java -cp build:lib/gamestests.jar games.tictactoe.Main
+
+# 8. TicTacToeWithHints de Base
+java -cp build:lib/gamestests.jar games.tictactoe.TestTicTacToeWithHints
