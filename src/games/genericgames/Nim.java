@@ -3,12 +3,11 @@ package games.genericgames;
 import games.players.Player;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Nim extends AbstractGame{
 
-    private int tailleInitialeDuTas;
-    private int nombreMaxAlumetteRetirableEnUnCoup;
+    private final int tailleInitialeDuTas;
+    private final int nombreMaxAlumetteRetirableEnUnCoup;
     private int nombreCourantAlumettes;
 
 
@@ -79,16 +78,6 @@ public class Nim extends AbstractGame{
                 || nombreAllumettesARetirer > this.getCurrentNbMatches());
     }
 
-    @Override
-    public int recupererCoup(Scanner unScanner) {
-        
-        System.out.println("Entrez le nombre d'allumettes à retirer :");
-
-        int coup = AbstractGame.recupererValeurEntierreAuClavier(unScanner);
-
-        return coup;
-    }
-
     /**
      * Vérifie si le jeu est terminé ou pas
      * @return Un booléen indiquant si le jeu est terminé, true si le jeu est terminé, false sinon
@@ -121,11 +110,11 @@ public class Nim extends AbstractGame{
         ArrayList<Integer> coupValides = new ArrayList<>();
 
         if (this.nombreCourantAlumettes > this.nombreMaxAlumetteRetirableEnUnCoup) {
-            for (int i = this.nombreCourantAlumettes; i > 0; i--) {
+            for (int i = 1; i <= this.nombreMaxAlumetteRetirableEnUnCoup; i++) {
                 coupValides.add(i);
             }
         }else{
-            for (int i = this.nombreCourantAlumettes; i > 0; i--) {
+            for (int i = 1; i <= this.nombreCourantAlumettes; i++) {
                 coupValides.add(i);
             }
         }

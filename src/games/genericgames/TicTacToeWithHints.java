@@ -1,12 +1,13 @@
 package games.genericgames;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import games.players.Player;
 
 public class TicTacToeWithHints extends TicTacToe {
 
-    private ArrayList<Integer> hints;
+    private List<Integer> hints;
 
     /**
      * Instancie un nouvel objet de type TicTacToe representant une partie
@@ -22,7 +23,7 @@ public class TicTacToeWithHints extends TicTacToe {
      * Met à jour le cache des indices avec la liste fournie.
      * @param hints La liste des indices à stocker
      */
-    private void setHints(ArrayList<Integer> hints) {
+    private void setHints(List<Integer> hints) {
         this.hints = hints;
     }
 
@@ -30,7 +31,7 @@ public class TicTacToeWithHints extends TicTacToe {
      * Retourne le cache des indices courants.
      * @return La liste des indices mis en cache, peut être null si non encore calculé
      */
-    public ArrayList<Integer> getHints() {
+    public List<Integer> getHints() {
         return hints;
     }
 
@@ -39,7 +40,7 @@ public class TicTacToeWithHints extends TicTacToe {
      * Utilisé lorsque la partie est terminée pour libérer la mémoire.
      */
     private void cleanHints() {
-        hints = null;
+        hints = new ArrayList<>();
     }
 
     /**
@@ -137,7 +138,7 @@ public class TicTacToeWithHints extends TicTacToe {
      * gagnant n'est possible avant au moins 2 tours complets.
      * @return Une liste d'entiers représentant les positions des coups gagnants (0-8)
      */
-    public ArrayList<Integer> hints() {
+    public List<Integer> hints() {
 
         ArrayList<Integer> localHints = new ArrayList<>();
 

@@ -2,7 +2,6 @@ package games.genericgames;
 
 import games.players.Player;
 import java.util.List;
-import java.util.Scanner;
 import java.util.ArrayList;
 public class TicTacToe extends AbstractGame {
 
@@ -265,23 +264,11 @@ public class TicTacToe extends AbstractGame {
                 }
             }
         }
-        System.out.println("Taille recup : " + coupsValides.size());
+//        System.out.println("Taille recup : " + coupsValides.size());
         return coupsValides;
     }
 
-    @Override
-    public int recupererCoup(Scanner unScanner) {
 
-        System.out.println("Votre coup :");
-        System.out.println("- Rangée ?");
-
-        int ligne = AbstractGame.recupererValeurEntierreAuClavier(unScanner);
-        System.out.println("- Colonne ?");
-        int colonne = AbstractGame.recupererValeurEntierreAuClavier(unScanner);
-
-
-        return positionVersEntierBase3(ligne, colonne);
-    }
     @Override
     public String moveToString(int entierBase3) {
         return "Coup sur la case [" + trouverLigneDepuisEntierBase3(entierBase3) + "][" + trouverColonneDepuisEntierBase3(entierBase3) + "]";

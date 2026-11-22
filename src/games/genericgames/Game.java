@@ -2,30 +2,26 @@ package games.genericgames;
 
 import games.players.Player;
 import java.util.List;
-import java.util.Scanner;
 
 public interface Game {
 
-    public Player getCurrentPlayer();
+    Player getCurrentPlayer();
 
-    public Player getWinner();
+    Player getWinner();
 
-    public boolean isValid(int entierBase3);
+    boolean isValid(int entierBase3);
 
-    public void execute(int entierBase3);
+    void execute(int entierBase3);
 
-    public List<Integer> validMoves();
+    List<Integer> validMoves();
 
-    public String moveToString(int entierBase3);
+    String moveToString(int entierBase3);
     
-    public String situationToString();
+    String situationToString();
 
-    public Game copy();
+    Game copy();
 
-    // Petits ajouts pour simplifier le code
-    public int recupererCoup(Scanner unScanner);
-
-    public boolean isOver();
+    boolean isOver();
 }
 
 
