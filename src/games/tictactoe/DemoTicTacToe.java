@@ -97,18 +97,31 @@ public class DemoTicTacToe {
 
     /**
      * Initialise une nouvelle partie de Morpion en demandant les paramètres à l'utilisateur.
-     * Récupère les noms des deux joueurs.
+     * Récupère les noms des deux joueurs et demande s'ils souhaitent jouer avec des indices.
+     * Retourne une instance de TicTacToeWithHints si les indices sont activés, sinon une instance de TicTacToe classique.
      * @param unScanner Le Scanner utilisé pour lire l'entrée standard
      * @return Une nouvelle instance de TicTacToe configurée avec les paramètres saisis
      */
     private static TicTacToe initialiserJeu(Scanner unScanner) {
+
+        TicTacToe game;
         System.out.println("Nom du joueur 1 : ");
         String nameJ1 = unScanner.next();
 
         System.out.println("Nom du joueur 2 : ");
         String nameJ2 = unScanner.next();
 
-        return new TicTacToe(nameJ1, nameJ2);
+        System.out.println("Voulez vous jouer avec des indices ? oui ou non : ?");
+
+        String answer = unScanner.next();
+        if (answer.equals("oui")) {
+            System.out.println("hints");
+            game = new TicTacToeWithHints(nameJ1, nameJ2);
+        } else {
+            game = new TicTacToe(nameJ1, nameJ2);
+        }
+
+        return game;
     }
 
 }

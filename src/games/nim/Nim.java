@@ -2,10 +2,10 @@ package games.nim;
 
 public class Nim {
 
-    private int tailleInitialeDuTas;
-    private int nombreMaxAlumetteRetirableEnUnCoup;
-    private String nomJoueurUn;
-    private String nomJoueurDeux;
+    private final int tailleInitialeDuTas;
+    private final int nombreMaxAlumetteRetirableEnUnCoup;
+    private final String nomJoueurUn;
+    private final String nomJoueurDeux;
     private int nombreCourantAlumettes;
 
     private boolean joueurCourantJ1; // True si le coup suivant est celui du joueur 1, false sinon
@@ -21,8 +21,14 @@ public class Nim {
     public Nim(int tailleInitialeDuTas, int nombreMaxAlumetteRetirableEnUnCoup,
             String nomJoueurUn, String nomJoueurDeux
     ) {
+        if (nombreMaxAlumetteRetirableEnUnCoup < 1) {
+            throw new IllegalArgumentException("Le nombre maximal d'allumettes retirable doit être supérieur ou égal à 1");
+        }
+        if (tailleInitialeDuTas < 0) {
+            throw new IllegalArgumentException("Le tas initial ne peut pas être négatif");
+        }
         this.tailleInitialeDuTas = tailleInitialeDuTas;
-        this.nombreMaxAlumetteRetirableEnUnCoup = nombreMaxAlumetteRetirableEnUnCoup;
+        this.nombreMaxAlumetteRetirableEnUnCoup = Math.min(nombreMaxAlumetteRetirableEnUnCoup, tailleInitialeDuTas);
         this.nomJoueurUn = nomJoueurUn;
         this.nomJoueurDeux = nomJoueurDeux;
         this.nombreCourantAlumettes = tailleInitialeDuTas;
