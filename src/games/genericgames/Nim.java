@@ -22,9 +22,15 @@ public class Nim extends AbstractGame{
     public Nim(int tailleInitialeDuTas, int nombreMaxAlumetteRetirableEnUnCoup,
             Player nomJoueurUn, Player nomJoueurDeux
     ) {
+        if (nombreMaxAlumetteRetirableEnUnCoup < 1) {
+            throw new IllegalArgumentException("Le nombre maximal d'allumettes retirable doit être supérieur ou égal à 1");
+        }
+        if (tailleInitialeDuTas < 0) {
+            throw new IllegalArgumentException("Le tas initial ne peut pas être négatif");
+        }
         super(nomJoueurUn, nomJoueurDeux);
         this.tailleInitialeDuTas = tailleInitialeDuTas;
-        this.nombreMaxAlumetteRetirableEnUnCoup = nombreMaxAlumetteRetirableEnUnCoup;
+        this.nombreMaxAlumetteRetirableEnUnCoup = Math.min(nombreMaxAlumetteRetirableEnUnCoup, tailleInitialeDuTas);
         this.nombreCourantAlumettes = tailleInitialeDuTas;
     }
 
@@ -56,7 +62,7 @@ public class Nim extends AbstractGame{
      * @param nombreAllumettesARetirer Le nombre d'allumettes à retirer dans le coup
      */
     @Override 
-    public void doExecute(int nombreAllumettesARetirer) {
+    protected void doExecute(int nombreAllumettesARetirer) {
 
         if (isValid(nombreAllumettesARetirer)) {
             this.nombreCourantAlumettes = this.nombreCourantAlumettes - nombreAllumettesARetirer;
@@ -67,7 +73,9 @@ public class Nim extends AbstractGame{
 
 
     /**
-     * Vérifie si un coup est jouable par rapport à la situation courante du jeu
+     * Vérifie si un coup est jouable par rapport à la situation courante du jeu.
+     * Un coup est valide si le nombre d'allumettes à retirer est strictement positif,
+     * inférieur ou égal au maximum autorisé et inférieur ou égal au nombre d'allumettes restantes.
      * @param nombreAllumettesARetirer Le nombre d'allumettes à retirer dans le coup
      * @return Un booléen indiquant si le coup est valide ou pas, true si le coup est valide, false sinon
      */
@@ -105,6 +113,12 @@ public class Nim extends AbstractGame{
         return this.getCurrentPlayer();
     }
 
+    /**
+     * Retourne la liste des coups valides possibles dans l'état actuel du jeu.
+     * Pour Nim, ce sont les nombres d'allumettes retirables (de 1 au minimum
+     * entre le maximum autorisé et le nombre d'allumettes restantes).
+     * @return Une liste d'entiers représentant les coups valides
+     */
     @Override
     public List<Integer> validMoves() {
         ArrayList<Integer> coupValides = new ArrayList<>();
@@ -122,11 +136,22 @@ public class Nim extends AbstractGame{
         return coupValides;
     }
 
+    /**
+     * Convertit un coup en une représentation textuelle lisible.
+     * Pour Nim, indique le nombre d'allumettes à retirer.
+     * @param entierBase3 Le nombre d'allumettes à retirer
+     * @return Une chaîne décrivant le coup
+     */
     @Override
     public String moveToString(int entierBase3) {
         return "Coup voulant retirer " + entierBase3 + " allumetes";
     }
 
+    /**
+     * Crée une copie profonde de l'état actuel du jeu.
+     * La copie inclut le nombre d'allumettes restantes et le joueur courant.
+     * @return Une nouvelle instance de Nim avec le même état que celui-ci
+     */
     @Override
     public Game copy() {
 

@@ -52,7 +52,7 @@ public class TicTacToe extends AbstractGame {
      * @param entierBase3 L'entier en base 3 (0-8)
      */
     @Override 
-    public void doExecute(int entierBase3) {
+    protected void doExecute(int entierBase3) {
         //X pour le joueur 1 et O pour le joueur 2
         int ligne = trouverLigneDepuisEntierBase3(entierBase3);
         int colonne = trouverColonneDepuisEntierBase3(entierBase3);
@@ -250,6 +250,11 @@ public class TicTacToe extends AbstractGame {
         return true;
     }
 
+    /**
+     * Retourne la liste des coups valides possibles dans l'état actuel du jeu.
+     * Pour le Morpion, ce sont les cases vides de la grille.
+     * @return Une liste d'entiers représentant les positions des cases vides (0-8)
+     */
     @Override
     public List<Integer> validMoves() {
         
@@ -269,11 +274,21 @@ public class TicTacToe extends AbstractGame {
     }
 
 
+    /**
+     * Convertit un coup en une représentation textuelle lisible.
+     * Pour le Morpion, indique les coordonnées de la case jouée.
+     * @param entierBase3 L'entier en base 3 (0-8) représentant le coup
+     * @return Une chaîne décrivant le coup sous la forme "Coup sur la case [ligne][colonne]"
+     */
     @Override
     public String moveToString(int entierBase3) {
         return "Coup sur la case [" + trouverLigneDepuisEntierBase3(entierBase3) + "][" + trouverColonneDepuisEntierBase3(entierBase3) + "]";
     }
 
+    /**
+     * Crée une copie profonde de la grille de jeu actuelle.
+     * @return Un nouveau tableau 3x3 contenant les mêmes valeurs que la grille actuelle
+     */
     private String[][] copieProfondeGrille(){
         String[][] nouveauTableau = new String[3][3];
 
@@ -286,6 +301,11 @@ public class TicTacToe extends AbstractGame {
         return nouveauTableau;
     }
 
+    /**
+     * Crée une copie profonde de l'état actuel du jeu.
+     * La copie inclut la grille et le joueur courant.
+     * @return Une nouvelle instance de TicTacToe avec le même état que celui-ci
+     */
     @Override
     public Game copy() {
         TicTacToe nouveauJeu = new TicTacToe(getJoueurUn(), getJoueurDeux());

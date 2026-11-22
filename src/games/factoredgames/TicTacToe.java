@@ -49,7 +49,7 @@ public class TicTacToe extends AbstractGame {
      * @param entierBase3 L'entier en base 3 (0-8)
      */
     @Override 
-    public void doExecute(int entierBase3) {
+    protected void doExecute(int entierBase3) {
         //X pour le joueur 1 et O pour le joueur 2
         int ligne = trouverLigneDepuisEntierBase3(entierBase3);
         int colonne = trouverColonneDepuisEntierBase3(entierBase3);

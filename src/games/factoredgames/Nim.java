@@ -2,8 +2,8 @@ package games.factoredgames;
 
 public class Nim extends AbstractGame{
 
-    private int tailleInitialeDuTas;
-    private int nombreMaxAlumetteRetirableEnUnCoup;
+    private final int tailleInitialeDuTas;
+    private final int nombreMaxAlumetteRetirableEnUnCoup;
     private int nombreCourantAlumettes;
 
 
@@ -18,9 +18,15 @@ public class Nim extends AbstractGame{
     public Nim(int tailleInitialeDuTas, int nombreMaxAlumetteRetirableEnUnCoup,
             String nomJoueurUn, String nomJoueurDeux
     ) {
+        if (nombreMaxAlumetteRetirableEnUnCoup < 1) {
+            throw new IllegalArgumentException("Le nombre maximal d'allumettes retirable doit être supérieur ou égal à 1");
+        }
+        if (tailleInitialeDuTas < 0) {
+            throw new IllegalArgumentException("Le tas initial ne peut pas être négatif");
+        }
         super(nomJoueurUn, nomJoueurDeux);
         this.tailleInitialeDuTas = tailleInitialeDuTas;
-        this.nombreMaxAlumetteRetirableEnUnCoup = nombreMaxAlumetteRetirableEnUnCoup;
+        this.nombreMaxAlumetteRetirableEnUnCoup = Math.min(nombreMaxAlumetteRetirableEnUnCoup, tailleInitialeDuTas);
         this.nombreCourantAlumettes = tailleInitialeDuTas;
     }
 
@@ -51,7 +57,7 @@ public class Nim extends AbstractGame{
      * @param nombreAllumettesARetirer Le nombre d'allumettes à retirer dans le coup
      */
     @Override 
-    public void doExecute(int nombreAllumettesARetirer) {
+    protected void doExecute(int nombreAllumettesARetirer) {
 
         if (isValid(nombreAllumettesARetirer)) {
             this.nombreCourantAlumettes = this.nombreCourantAlumettes - nombreAllumettesARetirer;
