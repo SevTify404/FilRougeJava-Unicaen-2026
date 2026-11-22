@@ -1,6 +1,7 @@
 package games.nim;
 
-import java.util.InputMismatchException;
+import games.utils.Utils;
+
 import java.util.Scanner;
 
 /**
@@ -34,28 +35,6 @@ public class DemoNim {
         scanner.close();
     }
 
-    /**
-     * Récupère une valeur entière saisie au clavier en gérant les erreurs de saisie.
-     * Redemande la saisie tant que l'utilisateur n'entre pas un nombre entier valide.
-     * @param unScanner Le Scanner utilisé pour lire l'entrée standard
-     * @return La valeur entière saisie par l'utilisateur
-     */
-    private static int recupererValeurEntierreAuClavier(Scanner unScanner) {
-        int valeur = 0;
-        boolean saisieValide = false;
-
-        while (!saisieValide) {
-            try {
-                valeur = unScanner.nextInt();
-                saisieValide = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Erreur, il faut entrer un nombre entier valide.");
-                unScanner.next(); // Consomme et ignore l'entrée incorrecte pour éviter une boucle infinie
-            }
-        }
-
-        return valeur;
-    }
 
     /**
      * Récupère un coup valide pour le jeu de Nim en demandant à l'utilisateur.
@@ -73,7 +52,7 @@ public class DemoNim {
         while (coup == -1) {
             System.out.println("Entre ton coup :");
 
-            coup = recupererValeurEntierreAuClavier(unScanner);
+            coup = Utils.recupererValeurEntierreAuClavier(unScanner);
 
             if (!instanceJeuNim.isValid(coup)) {
                 System.out.println("Coup invalide, reprend");
@@ -97,33 +76,20 @@ public class DemoNim {
         System.out.println("Nom du joueur 2 : ");
         String nameJ2 = unScanner.next();
 
-        int k = recupererEntierPositif(unScanner, "le nombre maximal d'allumettes retirable en un coup");
+        while (true) {
+            int k = Utils.recupererEntierPositif(unScanner, "le nombre maximal d'allumettes retirable en un coup");
 
-        int n = recupererEntierPositif(unScanner, "le nombre initial d'allumettes dans le tas");
+            int n = Utils.recupererEntierPositif(unScanner, "le nombre initial d'allumettes dans le tas");
 
-        return new Nim(n, k, nameJ1, nameJ2);
-    }
-
-    /**
-     * Récupère un entier strictement positif en demandant à l'utilisateur.
-     * Redemande la saisie tant que la valeur n'est pas strictement positive.
-     * @param unScanner Le Scanner utilisé pour lire l'entrée standard
-     * @param message Le message affiché à l'utilisateur pour décrire la valeur attendue
-     * @return Une valeur entière strictement positive
-     */
-    private static int recupererEntierPositif(Scanner unScanner, String message) {
-        int valeur;
-        do {
-            System.out.println("Entre " + message + " :");
-            valeur = recupererValeurEntierreAuClavier(unScanner);
-
-            if (valeur <= 0) {
-                System.out.println(message + " doit être strictement positif.");
+            if (k > n) {
+                System.out.println("Le nombre maximal d'allumettes retirable en un coup ne peut pas être supérieur au nombre initial d'allumettes dans le tas, Reprenez.");
+            } else {
+                return new Nim(n, k, nameJ1, nameJ2);
             }
-        } while (valeur <= 0);
-
-        return valeur;
+        }
 
     }
+
+
 
 }

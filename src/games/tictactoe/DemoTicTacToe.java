@@ -1,6 +1,7 @@
 package games.tictactoe;
 
-import java.util.InputMismatchException;
+import games.utils.Utils;
+
 import java.util.Scanner;
 
 /**
@@ -42,28 +43,6 @@ public class DemoTicTacToe {
         scanner.close();
     }
 
-    /**
-     * Récupère une valeur entière saisie au clavier en gérant les erreurs de saisie.
-     * Redemande la saisie tant que l'utilisateur n'entre pas un nombre entier valide.
-     * @param unScanner Le Scanner utilisé pour lire l'entrée standard
-     * @return La valeur entière saisie par l'utilisateur
-     */
-    private static int recupererValeurEntierreAuClavier(Scanner unScanner) {
-        int valeur = 0;
-        boolean saisieValide = false;
-
-        while (!saisieValide) {
-            try {
-                valeur = unScanner.nextInt();
-                saisieValide = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Erreur, il faut entrer un nombre entier valide.");
-                unScanner.next(); // Consomme et ignore l'entrée incorrecte pour éviter une boucle infinie
-            }
-        }
-
-        return valeur;
-    }
 
     /**
      * Récupère un coup valide pour le jeu de Morpion en demandant à l'utilisateur.
@@ -81,9 +60,9 @@ public class DemoTicTacToe {
         while (!coupValide) {
             System.out.println("Votre coup :");
             System.out.println("- Rangée ?");
-            ligne = recupererValeurEntierreAuClavier(unScanner);
+            ligne = Utils.recupererValeurEntierreAuClavier(unScanner);
             System.out.println("- Colonne ?");
-            colonne = recupererValeurEntierreAuClavier(unScanner);
+            colonne = Utils.recupererValeurEntierreAuClavier(unScanner);
 
             if (ticTacToeInstance.isValid(ligne, colonne)) {
                 coupValide = true;

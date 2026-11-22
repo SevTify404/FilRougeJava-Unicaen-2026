@@ -2,8 +2,8 @@ package games.factoredgames;
 
 public abstract class AbstractGame {
 
-    private String nomJoueurUn;
-    private String nomJoueurDeux;
+    private final String nomJoueurUn;
+    private final String nomJoueurDeux;
     protected  boolean joueurCourantEstJ1; // True si le coup suivant est celui du joueur 1, false sinon
 
     public AbstractGame(String nomJoueurUn, String nomJoueurDeux) {

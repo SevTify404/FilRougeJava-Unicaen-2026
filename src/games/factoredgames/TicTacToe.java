@@ -1,5 +1,7 @@
 package games.factoredgames;
 
+import games.utils.Utils;
+
 public class TicTacToe extends AbstractGame {
 
     protected String[][] grille;
@@ -13,36 +15,6 @@ public class TicTacToe extends AbstractGame {
         super(nomJoueurUn, nomJoueurDeux);
         this.grille = new String[3][3];
     }
-    
-    /**
-     * Convertit les coordonnées d'une case (ligne, colonne) en un entier en base 3.
-     * La formule utilisée est : entier = 3 × ligne + colonne.
-     * @param ligne Le numéro de la ligne (0-2)
-     * @param colonne Le numéro de la colonne (0-2)
-     * @return L'entier en base 3 correspondant à la position (0-8)
-     */
-    public static int positionVersEntierBase3(int ligne, int colonne) {
-        // Formule i = 3r + c de labase 3
-        return (3 * ligne) + colonne;
-    }
-
-        /**
-     * Récupère le numéro de colonne à partir d'un entier en base 3.
-     * @param entierBase3 L'entier en base 3 (0-8)
-     * @return Le numéro de colonne (0-2)
-     */
-    protected  int trouverColonneDepuisEntierBase3(int entierBase3) {
-        return entierBase3 % 3;
-    }
-
-    /**
-     * Récupère le numéro de ligne à partir d'un entier en base 3.
-     * @param entierBase3 L'entier en base 3 (0-8)
-     * @return Le numéro de ligne (0-2)
-     */
-    protected  int trouverLigneDepuisEntierBase3(int entierBase3) {
-        return entierBase3 / 3;
-    }
 
     /**
      * Execute un coup en plaçant le symbole du joueur courant sur la grille et change le joueur actif
@@ -51,8 +23,8 @@ public class TicTacToe extends AbstractGame {
     @Override 
     protected void doExecute(int entierBase3) {
         //X pour le joueur 1 et O pour le joueur 2
-        int ligne = trouverLigneDepuisEntierBase3(entierBase3);
-        int colonne = trouverColonneDepuisEntierBase3(entierBase3);
+        int ligne = Utils.trouverLigneDepuisEntierBase3(entierBase3);
+        int colonne = Utils.trouverColonneDepuisEntierBase3(entierBase3);
         this.grille[ligne][colonne] = this.retrouverCaractereDeGrille(joueurCourantEstJ1);
     }
 
@@ -63,8 +35,8 @@ public class TicTacToe extends AbstractGame {
      */
     public boolean isValid(int entierBase3) {
 
-        int ligne = trouverLigneDepuisEntierBase3(entierBase3);
-        int colonne = trouverColonneDepuisEntierBase3(entierBase3);
+        int ligne = Utils.trouverLigneDepuisEntierBase3(entierBase3);
+        int colonne = Utils.trouverColonneDepuisEntierBase3(entierBase3);
 
         if (ligne >= 3 || ligne < 0) {
             return false;

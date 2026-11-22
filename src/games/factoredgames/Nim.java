@@ -63,7 +63,6 @@ public class Nim extends AbstractGame{
             this.nombreCourantAlumettes = this.nombreCourantAlumettes - nombreAllumettesARetirer;
         }
 
-
     }
 
 

@@ -1,5 +1,7 @@
 package games.tictactoe;
 
+import games.utils.Utils;
+
 import java.util.ArrayList;
 
 public class TicTacToeWithHints extends TicTacToe {
@@ -52,36 +54,6 @@ public class TicTacToeWithHints extends TicTacToe {
     }
 
     /**
-     * Convertit les coordonnées d'une case (ligne, colonne) en un entier en base 3.
-     * La formule utilisée est : entier = 3 × ligne + colonne.
-     * @param ligne Le numéro de la ligne (0-2)
-     * @param colonne Le numéro de la colonne (0-2)
-     * @return L'entier en base 3 correspondant à la position (0-8)
-     */
-    private int positionVersEntierBase3(int ligne, int colonne) {
-        // Formule i = 3r + c de labase 3
-        return (3 * ligne) + colonne;
-    }
-
-    /**
-     * Récupère le numéro de colonne à partir d'un entier en base 3.
-     * @param entierBase3 L'entier en base 3 (0-8)
-     * @return Le numéro de colonne (0-2)
-     */
-    private int trouverColonneDepuisEntierBase3(int entierBase3) {
-        return entierBase3 % 3;
-    }
-
-    /**
-     * Récupère le numéro de ligne à partir d'un entier en base 3.
-     * @param entierBase3 L'entier en base 3 (0-8)
-     * @return Le numéro de ligne (0-2)
-     */
-    private int trouverLigneDepuisEntierBase3(int entierBase3) {
-        return entierBase3 / 3;
-    }
-
-    /**
      * Trouve toutes les cases vides de la grille et retourne leurs positions
      * sous forme d'entiers en base 3.
      * @return Une liste d'entiers représentant les positions des cases vides (0-8)
@@ -94,7 +66,7 @@ public class TicTacToeWithHints extends TicTacToe {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (this.grille[i][j] == null) {
-                    listeCasesVides.add(this.positionVersEntierBase3(i, j));
+                    listeCasesVides.add(Utils.positionVersEntierBase3(i, j));
                 }
             }
         }
@@ -182,8 +154,8 @@ public class TicTacToeWithHints extends TicTacToe {
         // Pour chaque case vide on simule un coup
         for (int caseBase3 : listeCasesVides) {
             boolean coupPotentiellementGagnant = this.coupGagnant(
-                    this.trouverLigneDepuisEntierBase3(caseBase3),
-                    this.trouverColonneDepuisEntierBase3(caseBase3)
+                    Utils.trouverLigneDepuisEntierBase3(caseBase3),
+                    Utils.trouverColonneDepuisEntierBase3(caseBase3)
             );
 
             // Si le coup est gagnant on l'ajoute au tableau
@@ -253,7 +225,7 @@ public class TicTacToeWithHints extends TicTacToe {
                 // Un peu brutal mais bon....
                 situationString +=
                         elementCourant == null ?
-                        this.hintsContains(this.positionVersEntierBase3(l, c)) ?
+                        this.hintsContains(Utils.positionVersEntierBase3(l, c)) ?
                                 "!" : "."
                         :
                         elementCourant;

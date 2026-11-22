@@ -3,8 +3,8 @@ package games.tictactoe;
 public class TicTacToe {
 
     protected String[][] grille;
-    private String nomJoueurUn;
-    private String nomJoueurDeux;
+    private final String nomJoueurUn;
+    private final String nomJoueurDeux;
     protected boolean joueurCourantEstJ1; // True si le coup suivant est celui du joueur 1, false sinon
     protected String SEPARATEUR = " ";
     /**
@@ -167,21 +167,6 @@ public class TicTacToe {
                 return joueurBool ? this.nomJoueurUn : this.nomJoueurDeux;
             }
         }
-        /*
-        for (boolean joueur : tabJCourant) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    for (int deltaL = -1; deltaL <= 1; deltaL++) {
-                        for (int deltaC = -1; deltaC <= 1; deltaC++) {
-                            if (wins(joueur, i, j, deltaL, deltaC)) {
-                                return getPlayerWithBool(joueur);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-         */
         return null;
     }
 

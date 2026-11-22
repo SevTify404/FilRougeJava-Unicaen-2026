@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import games.players.Player;
+import games.utils.Utils;
 
 public class TicTacToeWithHints extends TicTacToe {
 
@@ -68,7 +69,7 @@ public class TicTacToeWithHints extends TicTacToe {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (this.grille[i][j] == null) {
-                    listeCasesVides.add(positionVersEntierBase3(i, j));
+                    listeCasesVides.add(Utils.positionVersEntierBase3(i, j));
                 }
             }
         }
@@ -156,8 +157,8 @@ public class TicTacToeWithHints extends TicTacToe {
         // Pour chaque case vide on simule un coup
         for (int caseBase3 : listeCasesVides) {
             boolean coupPotentiellementGagnant = this.coupGagnant(
-                    this.trouverLigneDepuisEntierBase3(caseBase3),
-                    this.trouverColonneDepuisEntierBase3(caseBase3)
+                    Utils.trouverLigneDepuisEntierBase3(caseBase3),
+                    Utils.trouverColonneDepuisEntierBase3(caseBase3)
             );
 
             // Si le coup est gagnant on l'ajoute au tableau
@@ -226,7 +227,7 @@ public class TicTacToeWithHints extends TicTacToe {
                 // Un peu brutal mais bon....
                 situationString +=
                         elementCourant == null ?
-                        this.hintsContains(positionVersEntierBase3(l, c)) ?
+                        this.hintsContains(Utils.positionVersEntierBase3(l, c)) ?
                                 "!" : "."
                         :
                         elementCourant;
